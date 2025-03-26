@@ -15,11 +15,15 @@ class AviaSoulsTest {
     @Test
     void testSearchSortByPrice() {
         AviaSouls souls = new AviaSouls();
-        souls.add(new Ticket("A", "B", 200, 10, 15));
-        souls.add(new Ticket("A", "B", 100, 10, 12));
-        Ticket[] result = souls.search("A", "B");
-        assertEquals(100, result[0].getPrice());
-        assertEquals(200, result[1].getPrice());
+        Ticket ticket1 = new Ticket("A", "B", 200, 10, 15);
+        Ticket ticket2 = new Ticket("A", "B", 100, 10, 12);
+        souls.add(ticket1);
+        souls.add(ticket2);
+
+        Ticket[] expected = {ticket2, ticket1};
+        Ticket[] actual = souls.search("A", "B");
+
+        assertArrayEquals(expected, actual);
     }
 
     @Test
@@ -33,11 +37,15 @@ class AviaSoulsTest {
     @Test
     void testSearchAndSortByTime() {
         AviaSouls souls = new AviaSouls();
-        souls.add(new Ticket("A", "B", 200, 10, 15));
-        souls.add(new Ticket("A", "B", 100, 10, 12));
+        Ticket ticket1 = new Ticket("A", "B", 200, 10, 15);
+        Ticket ticket2 = new Ticket("A", "B", 100, 10, 12);
+        souls.add(ticket1);
+        souls.add(ticket2);
+
         Comparator<Ticket> comparator = new TicketTimeComparator();
-        Ticket[] result = souls.searchAndSortBy("A", "B", comparator);
-        assertEquals(2, result[0].getTimeTo() - result[0].getTimeFrom());
-        assertEquals(5, result[1].getTimeTo() - result[1].getTimeFrom());
+        Ticket[] expected = {ticket2, ticket1};
+        Ticket[] actual = souls.searchAndSortBy("A", "B", comparator);
+
+        assertArrayEquals(expected, actual);
     }
 }
